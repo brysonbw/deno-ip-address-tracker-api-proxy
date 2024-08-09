@@ -4,12 +4,11 @@ import { cors, logger, prettyJSON, secureHeaders } from 'hono/middleware';
 import { loadEnv } from './config/loadEnv.ts';
 import countryCity from './routes/countryCity.ts';
 import UserIp from './routes/userIp.ts';
-import { openKv } from 'npm:@deno/kv';
 
 await loadEnv();
 
 const app = new Hono();
-const kv = await openKv();
+const kv = await Deno.openKv();
 
 // Rate limit configuration
 const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
