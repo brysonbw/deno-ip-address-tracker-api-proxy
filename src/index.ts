@@ -1,4 +1,3 @@
-/** @jsx jsx */
 import { Hono } from 'hono';
 import { cors, logger, prettyJSON, secureHeaders } from 'hono/middleware';
 import { loadEnv } from './config/loadEnv.ts';
