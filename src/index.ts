@@ -1,8 +1,8 @@
 import { Hono } from 'hono';
+import { getConnInfo } from 'npm:hono/deno';
 import { cors, logger, prettyJSON, secureHeaders } from 'hono/middleware';
 import { loadEnv } from './config/loadEnv.ts';
 import countryCity from './routes/countryCity.ts';
-import UserIp from './routes/userIp.ts';
 
 await loadEnv();
 
@@ -14,11 +14,12 @@ const RATE_LIMIT_WINDOW = 15 * 60 * 1000; // 15 minutes
 const MAX_REQUESTS = 100; // Limit each IP to 100 requests per `window` (here, per 15 minutes).
 
 // Rate limiting middleware
-app.use('*', async (ctx, next) => {
+app.use('*', async (c: any, next) => {
 	if (Deno.env.get('DENO_ENV') != 'production') {
 		return next();
 	}
-	const ip = ctx.req.header('X-Forwarded-For');
+	const ip = getConnInfo(c).remote.address;
+	console.log(ip);
 	const now = Date.now();
 	const windowStart = now - RATE_LIMIT_WINDOW;
 	const key: string = `rate_limit:${ip}`;
@@ -47,7 +48,7 @@ app.use('*', async (ctx, next) => {
 
 	// Check if the request count exceeds the limit
 	if (count > MAX_REQUESTS) {
-		return ctx.json({ status: false, error: 'Too many requests' }, 429);
+		return c.json({ status: false, error: 'Too many requests' }, 429);
 	}
 
 	return next();
@@ -73,7 +74,6 @@ app.get(
 
 // routes
 app.route('/api/v1/country,city', countryCity);
-app.route('/api/v1/uip', UserIp);
 
 //! not found
 app.notFound((c) =>

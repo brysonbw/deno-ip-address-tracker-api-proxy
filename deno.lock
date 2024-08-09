@@ -3,6 +3,7 @@
   "packages": {
     "specifiers": {
       "npm:@deno/kv": "npm:@deno/kv@0.8.1",
+      "npm:hono": "npm:hono@4.5.1",
       "npm:hono-rate-limiter": "npm:hono-rate-limiter@0.4.0_hono@4.5.1"
     },
     "npm": {
