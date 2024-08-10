@@ -34,7 +34,7 @@ app.get(
 			if (jsonData.status === 404 || jsonData.error || !jsonData.loc) {
 				throw new Error(
 					jsonData.error?.message ??
-						'Could retrieve IP Address coordinates',
+						'Could not retrieve IP Address coordinates',
 				);
 			}
 			// Config props
