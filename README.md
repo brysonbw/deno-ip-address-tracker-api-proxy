@@ -2,9 +2,6 @@
 
 Utilizing the [IPinfo API](https://ipinfo.io/) to track and analyze IP addresses through an API proxy
 
-## Visit:
-https://ip-address-tracker-io.vercel.app/
-
 ## Usage
 
 ```bash
